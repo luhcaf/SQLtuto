@@ -47,29 +47,28 @@ QMessageBox::critical(this, "Falha",
 QMessageBox::Cancel);
 }
 else if (qry.next())
-QMessageBox::information(this, "Banco Tutorial",
-"Conexão realizada com sucesso com o Banco ["
-+ ui->edt_schema->text() + "]\n[" + qry.value(0).toDateTime().toString() + "]" ,
+QMessageBox::information(this, "Tutorial banco de dados",
+"Conexão realizada com sucesso!"
++ ui->edt_esquema->text() + "]\n[" + qry.value(0).toDateTime().toString() + "]" ,
 QMessageBox::Ok);
 habilitar_query(true);
 ui->txt_sql->setFocus();
 }
 }
-void sqltest::desconectar()
+void tutosql::desconectar()
 {
 QSqlDatabase db = QSqlDatabase::database();
 db.close();
 habilitar_query(false);
 ui->edt_schema->setFocus();
 }
-void sqltest::exeSQL()
+void tutosql::execSQL()
 {
 }
-void sqltest::habilitarQuery(bool ativo)
+void tutosql::habilitarQuery(bool ativo)
 {
-ui->descbutt->setEnabled(ativo);
-ui->Exebutt->setEnabled(ativo);
-ui->plainTextEdit->setEnabled(ativo);
-ui->plainTextEdit->setDesabled(ativo);
-ui->edt_schema->setDisabled(ativo);
+ui->descbuttbot_desconectarExebutt->setEnabled(ativo);
+ui->Edit_txt->setEnabled(ativo);
+ui->Edit_txt->setDesabled(ativo);
+ui->edt_esquema->setDisabled(ativo);
 }
