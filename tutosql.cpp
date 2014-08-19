@@ -34,7 +34,7 @@ db.setDatabaseName(ui->edt_esquema->text().trimmed());
 if (!db.open())
 {
 QMessageBox::critical(this, "Error",
-"Falha na conexão com o BD [" + ui->edt_esquema->text() + "]\n" + db.lastError().text(),
+"Falha na conexão com o banco de dados." + ui->edt_esquema->text() + "]\n" + db.lastError().text(),
 QMessageBox::Cancel);
 return;
 }
