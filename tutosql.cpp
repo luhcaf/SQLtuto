@@ -38,3 +38,38 @@ QMessageBox::critical(this, "Error",
 QMessageBox::Cancel);
 return;
 }
+ QSqlQuery qry;
+qry.prepare("SELECT datetime('now')");
+if (!qry.exec()){
+QString erro = qry.lastError().text();
+QMessageBox::critical(this, "Falha",
+"Falha ao preparar consulta do BD" + erro + "\n",
+QMessageBox::Cancel);
+}
+else if (qry.next())
+QMessageBox::information(this, "Banco Tutorial",
+"Conexão realizada com sucesso com o Banco ["
++ ui->edt_schema->text() + "]\n[" + qry.value(0).toDateTime().toString() + "]" ,
+QMessageBox::Ok);
+habilitar_query(true);
+ui->txt_sql->setFocus();
+}
+}
+void sqltest::desconectar()
+{
+QSqlDatabase db = QSqlDatabase::database();
+db.close();
+habilitar_query(false);
+ui->edt_schema->setFocus();
+}
+void sqltest::exeSQL()
+{
+}
+void sqltest::habilitarQuery(bool ativo)
+{
+ui->descbutt->setEnabled(ativo);
+ui->Exebutt->setEnabled(ativo);
+ui->plainTextEdit->setEnabled(ativo);
+ui->plainTextEdit->setDesabled(ativo);
+ui->edt_schema->setDisabled(ativo);
+}
