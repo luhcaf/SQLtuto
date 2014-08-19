@@ -121,3 +121,11 @@ QMessageBox::critical(this, "SOQH SQL - ERRO",
 ui->txt_sql->setFocus();
 return;
 }
+ numRows += qry.numRowsAffected();
+}
+strRows.setNum(numRows);
+QMessageBox::information(this, "SOQH SQL",
+"Instrução SQL executada com sucesso\n[" + strRows +
+"] linha(s) afetadas(s)");
+}
+}
