@@ -72,3 +72,52 @@ ui->Edit_txt->setEnabled(ativo);
 ui->Edit_txt->setDesabled(ativo);
 ui->edt_esquema->setDisabled(ativo);
 }
+void tutorialSQLITE::enviarQuery()
+{
+txt_query->clear();
+ui->tbl_sql->setModel(NULL);
+if(ui->txt_sql->toPlainText().trimmed().isEmpty())
+{
+QMessageBox::information(this, "Instrução SQL",
+"Não há instrução  a ser executada");
+ui->txt_sql->setFocus();
+return;
+}
+QString sql = ui->txt_sql->toPlainText();
+if (sql.toUpper().startsWith("SELECT"))
+{
+txt_query->setQuery(sql);
+ui->tbl_sql->setModel(txt_query);
+if (txt_query->lastError().isValid())
+{
+QMessageBox::critical(this, "SoQH SQL - ERRO",
+txt_query->lastError().text());
+ui->txt_sql->setFocus();
+return;
+}
+QMessageBox::information(this, "SoQH SQL",
+"Instrução SQL executada.");
+}
+else
+{
+QStringList sqls = sql.split(";");
+QString strRows;
+int numRows = 0;
+for (int i = 0; i < sqls.size(); i++)
+{
+QString tmpSql = sqls.at(i);
+if (tmpSql.trimmed().isEmpty())
+continue;
+QSqlQuery qry;
+qry.prepare(sqls.at(i));
+if (!qry.exec())
+{
+strRows.setNum(numRows);
+QString numScript;
+numScript.setNum(i+1);
+QMessageBox::critical(this, "SOQH SQL - ERRO",
+"Falha ao executar script [" + numScript + "]\n[" + strRows +
+"] linha(s) afetada(s)\n" + qry.lastError().text());
+ui->txt_sql->setFocus();
+return;
+}
